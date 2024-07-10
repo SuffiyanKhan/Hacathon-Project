@@ -27,46 +27,46 @@ function AllStudents() {
             </div>
             <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} />
             {
-                        loading ? <Loader/>:(
-            <div className="mt-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                <table className="table table-bordered mt-4">
-                    <thead>
-                        <tr>
-                            <th>Roll No</th>
-                            <th>Student Name</th>
-                            <th>Course Name</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        {
-                        allStudentData.length > 0 ? (
-                            allStudentData.map((data) => (
-                                <tr key={data._id}>
-                                    <td>{data.rollno}</td>
-                                    <td>{data.name}</td>
-                                    <td>{data.course}</td>
-                                    <td>
-                                        <span className='bg-primary text-white py-1 px-2 rounded-3' style={{ fontSize: "13px" }}>Active</span>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(data._id) }}>Delete</button>
-                                    </td>
+                loading ? <Loader /> : (
+                    <div className="mt-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        <table className="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Student Name</th>
+                                    <th>Course Name</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5" className="text-center">No Data</td>
-                            </tr>
-                        )
-                        }
-                    </tbody>
-                </table>
-            </div>
-                        )
-                    }
+                            </thead>
+
+                            <tbody>
+                                {
+                                    allStudentData.length > 0 ? (
+                                        allStudentData.map((data) => (
+                                            <tr key={data._id}>
+                                                <td>{data.rollno}</td>
+                                                <td>{data.name}</td>
+                                                <td>{data.course}</td>
+                                                <td>
+                                                    <span className='bg-primary text-white py-1 px-2 rounded-3' style={{ fontSize: "13px" }}>Active</span>
+                                                </td>
+                                                <td>
+                                                    <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(data._id) }}>Delete</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5" className="text-center">No Data</td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
         </div>
     );
 }

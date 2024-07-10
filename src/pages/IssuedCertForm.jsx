@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import IssuedCertificateForm from './IssuedCertificatemodal'
+import { GetAllIssuedCertificate } from '../services/getAllCourse';
+import Loader from '../component/Loader/Loader';
 
 export default function IssuedCertForm() {
+    const [allStudentData, setAllStudentData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await GetAllIssuedCertificate();
+                setAllStudentData(response.data);
+            } catch (error) {
+                console.error('Error fetching students:', error);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, []);
     return (
         <div className="bg-white p-3 mb-3 rounded shadow-sm">
             <div className="d-flex justify-content-between">
@@ -12,39 +29,43 @@ export default function IssuedCertForm() {
                 </div>
             </div>
             <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} />
-            <table className="table table-bordered mt-4">
-                <thead>
-                    <tr>
-                        <th>Certificate ID</th>
-                        <th>Course Name</th>
-                        <th>Date Created</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Web/App Development</td>
-                        <td>2024-01-01</td>
-                        <td> <span className='bg-primary text-white py-1 px-2 rounded-3 ' style={{ fontSize: "13px" }}>Active</span> </td>
-                        <td>
-                            <button className="btn btn-success btn-sm m-1">View</button>
-                            <button className="btn btn-danger btn-sm m-1">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>AI / ChstBoot</td>
-                        <td>2024-01-02</td>
-                        <td> <span className='bg-primary text-white py-1 px-2 rounded-3 ' style={{ fontSize: "13px" }}>Active</span> </td>
-                        <td>
-                            <button className="btn btn-success btn-sm m-1">View</button>
-                            <button className="btn btn-danger btn-sm m-1">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="mt-3" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                {loading ? (
+                    <Loader />
+                ) : allStudentData.length > 0 ? (
+                    <table className="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th>Roll No</th>
+                                <th>Course Name</th>
+                                <th>Batch No</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allStudentData.map((certificate) => (
+                                <tr key={certificate._id}>
+                                    <td>{certificate.rollno}</td>
+                                    <td>{certificate.course}</td>
+                                    <td>{certificate.batchNo}</td>
+                                    <td>
+                                        <span className='bg-primary text-white py-1 px-2 rounded-3' style={{ fontSize: "13px" }}>
+                                            complete
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-success btn-sm m-1">View</button>
+                                        <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(certificate._id) }}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No data available</p>
+                )}
+            </div>
         </div>
     )
     // return (

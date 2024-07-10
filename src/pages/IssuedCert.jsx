@@ -2,6 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function IssuedCert() {
+    
     return (
         <div>
             <div className="bg-white p-3 mb-3 rounded shadow-sm">

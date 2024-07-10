@@ -8,7 +8,7 @@ import { useGlobalState } from '../contextApi/ContextApi';
 function AllCertificates() {
     const { totalCertificaet, setTotalCertificate } = useGlobalState()
     const [certificateData, setCertificateData] = useState([]);
-
+const [getInput,setGetInput]=useState("")
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,25 +17,29 @@ function AllCertificates() {
                 const response = await GetAllCertificateData();
                 setCertificateData(response.data);
                 setTotalCertificate(response.data.length)
-                console.log(response.data)
             } catch (error) {
                 console.error('Error fetching certificate data:', error);
             } finally {
                 setLoading(false);
             }
         })();
+        // (async()=>{
+        //     // serachissuedcertificate
+        //     const response = await fetch(`http://localhost:8003/?q=${getInput}`)
+        //     console.log(response)
+        // })()
     }, []);
 //isEmail
 
     return (
         <div className="bg-white p-3 mb-3 rounded shadow-sm">
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex mt-3 justify-content-between align-items-center">
                 <h2>All Certificates</h2>
                 <p>Total Certificate:{totalCertificaet}</p>
 
             </div>
-            <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} />
-            <div className="" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            {/* <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" onChange={(e)=>{setGetInput(e.target.value)}} style={{ boxShadow: "none", outline: "none" }} /> */}
+            <div className="mt-3" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 {loading ? (
                     <Loader />
                 ) : certificateData.length > 0 ? (

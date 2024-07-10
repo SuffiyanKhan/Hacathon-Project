@@ -1,13 +1,13 @@
-export const GetAllCourse=async()=>{
+export const GetAllCourse = async () => {
     try {
         const response = await fetch('http://localhost:8003/get-allCourses')
-            const data = await response.json();
+        const data = await response.json();
         return data
     } catch (error) {
         throw error.message
     }
 }
-export const GetAllSTudents=async()=>{
+export const GetAllSTudents = async () => {
     try {
         const response = await fetch("http://localhost:8003/getAllStudents")
         const studentData = response.json();
@@ -16,10 +16,21 @@ export const GetAllSTudents=async()=>{
         throw error
     }
 }
-export const GetAllCertificateData=async()=>{
+export const GetAllCertificateData = async () => {
     try {
         const response = await fetch("http://localhost:8003/getAllCertificates");
         const data = await response.json();
+        return data
+    } catch (error) {
+        throw error.message
+    }
+}
+
+export const GetAllIssuedCertificate = async () => {
+    try {
+        const responseData = await fetch("http://localhost:8003/getallissuedcertificate");
+        const data = await responseData.json();
+        console.log(data)
         return data
     } catch (error) {
         throw error.message
