@@ -25,7 +25,7 @@ function AllStudents() {
                 <h2>All Students</h2>
                 <Link className='btn btn-primary' to={'/addstudents'}>Add Students</Link>
             </div>
-            <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} />
+            {/* <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} /> */}
             {
                 loading ? <Loader /> : (
                     <div className="mt-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>

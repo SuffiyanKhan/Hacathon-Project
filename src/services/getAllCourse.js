@@ -30,7 +30,6 @@ export const GetAllIssuedCertificate = async () => {
     try {
         const responseData = await fetch("http://localhost:8003/getallissuedcertificate");
         const data = await responseData.json();
-        console.log(data)
         return data
     } catch (error) {
         throw error.message

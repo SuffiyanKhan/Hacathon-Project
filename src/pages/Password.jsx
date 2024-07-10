@@ -39,7 +39,7 @@ const [error,setError]=useState("")
                         <div className='mb-4 d-flex justify-content-center mb-5 pb-2'>
                             <img src={logo} width={160} />
                         </div>
-                        <p>{er}</p>
+                        <p>{error}</p>
                         <div className='form-floating mb-3'>
                             <input
                                 type="password"

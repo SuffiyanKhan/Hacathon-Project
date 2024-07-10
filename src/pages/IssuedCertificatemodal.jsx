@@ -16,11 +16,11 @@ function IssuedCertificatemodal() {
             setError("Please fill inputs")
             return;
         }
+        handleClose();
+        setError("");
+        setIssuedBatchNo("");
+        setIssuedCourseName("");
         alert("Start Certificate Generated") 
-            handleClose();
-            setError("");
-            setIssuedBatchNo("");
-            setIssuedCourseName("");
         try {
             const response = await axios.post('http://localhost:8003/generate', {
                 batchno: issuedBatchNo.toLowerCase(),
@@ -31,10 +31,11 @@ function IssuedCertificatemodal() {
             if (successStatus === 200) {
                 alert("ALL Certificate Generated") 
             }
+            console.log(response.message)
            
             
         } catch (error) {
-            console.error('Error issuing certificate:', error);
+            console.error('Error issuing certificate:', error.message);
             setError("Failed to issue certificate");
         }
     }

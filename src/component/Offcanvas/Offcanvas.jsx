@@ -20,6 +20,7 @@ function OffcanvasButton() {
 
     const handleButtonClick = (section) => {
         setActiveButton(section);
+        handleClose()
     };
 
 
@@ -32,9 +33,6 @@ function OffcanvasButton() {
       <Offcanvas show={show} onHide={handleClose} >
         <Offcanvas.Header closeButton >
           <Offcanvas.Title > 
-            {/* <div className="d-flex align-items-center pb-3 mb-3 border-bottom">
-                <span className="fs-4">Admin Portal</span>
-            </div> */}
             </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
@@ -53,28 +51,6 @@ function OffcanvasButton() {
                         </button>
                     </Link>
                 </li>
-                {/* <li className="nav-item">
-                    <Link to="/about" className='sidebar_link'>
-                        <button
-                            className={`nav-link btn btn-link text-dark ${activeButton === 'allcertificates' ? 'active' : ''}`}
-                            onClick={() => handleButtonClick('allcertificates')}
-                        >
-                            <i className="bi bi-file-earmark-text-fill me-2"></i>
-                            All Certificates
-                        </button>
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/contact" className='sidebar_link'>
-                        <button
-                            className={`nav-link btn btn-link text-dark ${activeButton === 'issuedcertificateform' ? 'active' : ''}`}
-                            onClick={() => handleButtonClick('issuedcertificateform')}
-                        >
-                            <i className="bi bi-award-fill me-2"></i>
-                            Issued Certificates
-                        </button>
-                    </Link>
-                </li> */}
                 <li className="nav-item">
                     <Link to="/allcertificates" className='sidebar_link'>
                         <button
@@ -94,6 +70,17 @@ function OffcanvasButton() {
                         >
                             <i className="bi bi-award-fill me-2"></i>
                             Issued Certificates
+                        </button>
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/allstudent" className='sidebar_link'>
+                        <button
+                            className={`nav-link btn btn-link text-dark ${activeButton === 'allstudent' ? 'active' : ''}`}
+                            onClick={() => handleButtonClick('allstudent')}
+                        >
+                            <i className="fa-solid fa-users "></i>
+                            All Students
                         </button>
                     </Link>
                 </li>
