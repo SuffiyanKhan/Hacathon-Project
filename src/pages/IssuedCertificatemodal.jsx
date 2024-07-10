@@ -21,15 +21,17 @@ function IssuedCertificatemodal() {
                 batchno: issuedBatchNo.toLowerCase(),
                 course: issuedCourseName.toLowerCase()
             });
-
+            const successStatus= await response.status
             alert("Start Certificate Generated") 
             handleClose();
             setError("");
             setIssuedBatchNo("");
             setIssuedCourseName("");
-            if (response.status === 200) {
+            if (successStatus === 200) {
                 alert("ALL Certificate Generated") 
             }
+           
+            
         } catch (error) {
             console.error('Error issuing certificate:', error);
             setError("Failed to issue certificate");

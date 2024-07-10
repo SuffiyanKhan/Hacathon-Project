@@ -2,13 +2,13 @@ import React, { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from "../assets/logo.png";
-import '../index.css';
+// import '../index.css';
 import { useGlobalState } from '../contextApi/ContextApi';
 
 function Password() {
     const { setIsUserToken } = useGlobalState()
     const [getPassword, setGetPassword] = useState("")
-
+const [error,setError]=useState("")
     const navigate = useNavigate()
 
     let Continue = async () => {
@@ -27,34 +27,61 @@ function Password() {
                 window.location.reload()
             }
         } catch (error) {
+            setError(error.message)
             console.error(error.message)
         }
     }
     return (
-        <div className='d-flex justify-content-center align-items-center main_divs'>
-            <div className='form-div text-center '>
-                <div className='mb-4'>
-                    <img src={logo} />
+        <>
+            <div className="container">
+                <div className="row d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                    <div className="col-lg-5 col-md-6 col-sm-12 py-5">
+                        <div className='mb-4 d-flex justify-content-center mb-5 pb-2'>
+                            <img src={logo} width={160} />
+                        </div>
+                        <p>{er}</p>
+                        <div className='form-floating mb-3'>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="password"
+                                placeholder="Enter your password"
+                                style={{ boxShadow: "none", outline: "none" }}
+                                onChange={(e) => { setGetPassword(e.target.value) }}
+                            />
+                            <label htmlFor="password">Enter our password</label>
+                        </div>
+                        <div className='d-grid mt-3'>
+                            <button className='btn btn-primary' onClick={Continue} >Continue</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div className='form-floating mb-3'>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        placeholder="Enter your password"
-                        style={{ boxShadow: "none", outline: "none" }}
-                        onChange={(e) => { setGetPassword(e.target.value) }}
-                    />
-                    <label htmlFor="password">Enter our password</label>
-                </div>
-
-                <div className='d-grid mt-3'>
-                    <button className='btn btn-primary' onClick={Continue} >Continue</button>
-                </div>
-
             </div>
-        </div>
+        </>
+        // <div className='container d-flex justify-content-center border align-items-center ' style={{height:"100vh"}}>
+        //     <div className='row form-div text-center '>
+        //         <div className="col-lg-5"></div>
+        //         <div className='mb-4'>
+        //             <img src={logo} width={160} />
+        //         </div>
+        //         <div className='form-floating mb-3'>
+        //             <input
+        //                 type="password"
+        //                 className="form-control"
+        //                 id="password"
+        //                 placeholder="Enter your password"
+        //                 style={{ boxShadow: "none", outline: "none" }}
+        //                 onChange={(e) => { setGetPassword(e.target.value) }}
+        //             />
+        //             <label htmlFor="password">Enter our password</label>
+        //         </div>
+
+        //         <div className='d-grid mt-3'>
+        //             <button className='btn btn-primary' onClick={Continue} >Continue</button>
+        //         </div>
+
+        //     </div>
+        // </div>
     )
 }
 
