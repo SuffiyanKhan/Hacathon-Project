@@ -9,11 +9,12 @@ function Otp() {
   const { otpVerificationEmail } = useGlobalState()
   const [otpDigits, setOtpDigits] = useState(Array(6).fill(''));
   const [otpNo, setOtpNo] = useState("")
+  const [loading, setLoading] = useState(false);
   const naviagte = useNavigate()
 
   const handleChange = (e, index) => {
     const value = e.target.value;
-    if (/^[0-9]?$/.test(value)) { 
+    if (/^[0-9]?$/.test(value)) {
       const newOtpDigits = [...otpDigits];
       newOtpDigits[index] = value;
       setOtpDigits(newOtpDigits);
@@ -33,6 +34,7 @@ function Otp() {
   let verifiedOtp = async () => {
     try {
       if (otpDigits) {
+        setLoading(true)
         const response = await axios.post('http://localhost:8003/verify-otp', {
           email: otpVerificationEmail,
           otp: otpNo
@@ -43,12 +45,23 @@ function Otp() {
         console.log(otpNo, otpVerificationEmail)
       }
     } catch (error) {
-      console.error(error.message)
-      console.error(error)
+      if (error.response) {
+        if (error.response.status === 404) {
+          alert("Incorrect OTP.Please check your inputs.");
+        } else {
+          alert("Internal Server Error.");
+        }
+      } else if (error.request) {
+        alert("Network error. Failed to communicate with server.");
+      } else {
+        alert("Error issuing certificate: " + error.message);
+      }
+    } finally {
+      setLoading(false)
     }
   }
   return (
-    <div className="container d-flex justify-content-center align-items-center main_divs" style={{height:"100vh"}}>
+    <div className="container d-flex justify-content-center align-items-center main_divs" style={{ height: "100vh" }}>
       <div className="card p-4" style={{ maxWidth: "500px", width: "100%", backgroundColor: 'white' }}>
         <div className="card-header text-center">
           <img src={logo} alt="smartphone" className="img-fluid mb-3" style={{ maxHeight: "100px" }} />
@@ -78,7 +91,9 @@ function Otp() {
           </div>
         </form>
         <div className='text-center'>
-          <button className="btn btn-primary w-50" onClick={verifiedOtp}>Verify</button>
+          <button className="btn btn-primary w-50" onClick={verifiedOtp}>
+            {loading ? 'Loading...' : 'Verify'}
+          </button>
         </div>
       </div>
     </div>

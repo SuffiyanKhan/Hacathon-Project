@@ -8,13 +8,17 @@ import { useGlobalState } from '../contextApi/ContextApi';
 function Password() {
     const { setOtpVerificationEmail } = useGlobalState()
     const [getEmail, setGetEmail] = useState("")
+    const [getEmailerror, setGetEmailerror] = useState("")
+    const [loading, setLoading] = useState(false);
+
     const validateEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const navigate = useNavigate()
     let Done = async () => {
         try {
             if (!validateEmail.test(getEmail)) {
-                return alert("something went wrong")
+                return setGetEmailerror("Invalid Credential.Please chcek the input!")
             }
+            setLoading(true)
             const response = await axios.post('http://localhost:8003/sendOtp', {
                 email: getEmail
             });
@@ -23,7 +27,19 @@ function Password() {
                 navigate("/otp")
             }
         } catch (error) {
-            console.error(error.message)
+            if (error.response) {
+                if (error.response.status === 404) {
+                    alert("Incorrect Email.Please check your inputs.");
+                } else {
+                    alert("Internal Server Error. ");
+                }
+            } else if (error.request) {
+                alert("Network error. Failed to communicate with server.");
+            } else {
+                alert("Error issuing certificate: " + error.message);
+            }
+        }finally{
+            setLoading(false)
         }
     }
     return (
@@ -45,10 +61,13 @@ function Password() {
                                 onChange={(e) => { setGetEmail(e.target.value) }}
                             />
                             <label htmlFor="email">Enter Email</label>
+                            <p className='text-danger'>{getEmailerror}</p>
                         </div>
 
                         <div className='d-grid mt-3'>
-                            <button className='btn btn-primary w-100' onClick={Done}>Continue</button>
+                            <button className='btn btn-primary w-100' onClick={Done}>
+                            {loading ? 'Loading...' : 'Continue'}
+                            </button>
                         </div>
                     </div>
                 </div>

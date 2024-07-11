@@ -19,7 +19,7 @@ function Password() {
             }
             setLoading(true)
             const response = await axios.post('http://localhost:8003/login', {
-                id: "668822b984d1ef6732e207bb",
+                id: "66905b7f605369b71961fc9f",
                 password: getPassword
             });
             if (response.data.status === 200) {
@@ -29,8 +29,17 @@ function Password() {
                 window.location.reload()
             }
         } catch (error) {
-            setError("Incorrect Password")
-            console.error(error.message)
+            if (error.response) {
+                if (error.response.status === 404) {
+                    setError("Incorrect Password.Please check your inputs.");
+                } else {
+                    alert("Internal Server Error. Failed to issue certificates.");
+                }
+            } else if (error.request) {
+                alert("Network error. Failed to communicate with server.");
+            } else {
+                setError("Error issuing certificate: " + error.message);
+            }
         } finally {
             setLoading(false)
         }
