@@ -6,7 +6,7 @@ function OffCanvasSideBar() {
     const location = useLocation();
 
     useEffect(() => {
-        const path = location.pathname.split('/')[1]; // Adjusted to split by '/' and take the first part
+        const path = location.pathname.split('/')[1]; 
         setActiveButton(path || 'home'); 
     }, [location]);
 

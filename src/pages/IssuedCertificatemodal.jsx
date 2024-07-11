@@ -5,13 +5,13 @@ import IssuedCertificateForm from '../component/IssuedCertificateForm/IssuedCert
 import { useGlobalState } from '../contextApi/ContextApi';
 import axios from 'axios';
 function IssuedCertificatemodal() {
-    const { error, setError, issuedBatchNo, setIssuedBatchNo, issuedCourseName, setIssuedCourseName } = useGlobalState()
+    const { setError, issuedBatchNo, setIssuedBatchNo, issuedCourseName, setIssuedCourseName } = useGlobalState()
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const ISSUEDcERTIFICATE =async () => {
+    const ISSUEDcERTIFICATE = async () => {
         if (!issuedBatchNo | !issuedCourseName) {
             setError("Please fill inputs")
             return;
@@ -20,26 +20,38 @@ function IssuedCertificatemodal() {
         setError("");
         setIssuedBatchNo("");
         setIssuedCourseName("");
-        alert("Start Certificate Generated") 
         try {
             const response = await axios.post('http://localhost:8003/generate', {
                 batchno: issuedBatchNo.toLowerCase(),
                 course: issuedCourseName.toLowerCase()
             });
-            const successStatus= await response.status
-            
-            if (successStatus === 200) {
-                alert("ALL Certificate Generated") 
+            const successStatus = await response.status
+
+            if (successStatus.status === 200) {
+                alert("Certificates generated successfully");
+                handleClose();
+                setError("");
+                setIssuedBatchNo("");
+                setIssuedCourseName("");
+            } else {
+                alert("Failed to generate certificates. Status: " + successStatus.status);
             }
-            console.log(response.message)
-           
-            
+
         } catch (error) {
-            console.error('Error issuing certificate:', error.message);
-            setError("Failed to issue certificate");
+            if (error.response) {
+                if (error.response.status === 404) {
+                    alert("Certificates not found on server. Please check your inputs.");
+                } else {
+                    alert("Internal Server Error. Failed to issue certificates.");
+                }
+            } else if (error.request) {
+                alert("Network error. Failed to communicate with server.");
+            } else {
+                alert("Error issuing certificate: " + error.message);
+            }
         }
     }
-    
+
 
     return (
         <>

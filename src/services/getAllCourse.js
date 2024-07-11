@@ -35,3 +35,12 @@ export const GetAllIssuedCertificate = async () => {
         throw error.message
     }
 }
+export const GetAllEnrolledStudents = async (params) => {
+    try {
+        const response = await fetch(`http://localhost:8003/getallcoursesstudent?course=${params}`)
+        const data = response.json()
+        return data
+    } catch (error) {
+        throw error
+    }
+}

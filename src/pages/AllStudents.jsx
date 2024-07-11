@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GetAllSTudents } from '../services/getAllCourse';
 import Loader from '../component/Loader/Loader';
+import axios from 'axios';
 
 function AllStudents() {
     const [allStudentData, setAllStudentData] = useState([]);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         (async () => {
             try {
@@ -19,6 +19,17 @@ function AllStudents() {
             }
         })();
     }, []);
+    const deleteStudent = async (id) => {
+        try {
+            alert("Delete this student")
+            const response = await axios.delete(`http://localhost:8003/deleteStudent/${id}`)
+            if (response.data.status === 200) {
+                window.location.reload()
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
     return (
         <div className="bg-white p-3 mb-3 rounded shadow-sm">
             <div className="d-flex justify-content-between">
@@ -39,7 +50,6 @@ function AllStudents() {
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 {
                                     allStudentData.length > 0 ? (
@@ -52,7 +62,7 @@ function AllStudents() {
                                                     <span className='bg-primary text-white py-1 px-2 rounded-3' style={{ fontSize: "13px" }}>Active</span>
                                                 </td>
                                                 <td>
-                                                    <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(data._id) }}>Delete</button>
+                                                    <button className="btn btn-danger btn-sm m-1" onClick={() => { deleteStudent(data._id) }}>Delete</button>
                                                 </td>
                                             </tr>
                                         ))

@@ -31,7 +31,6 @@ function AddCourses() {
         }
         
         window.location.reload()
-        // Close modal after saving changes
         handleClose();
     };
 

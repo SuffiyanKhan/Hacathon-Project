@@ -2,8 +2,10 @@ import React, { memo } from 'react';
 import '../index.css';
 import { Link } from 'react-router-dom';
 import { logout } from '../services/use4rAutghentication';
+import { useGlobalState } from '../contextApi/ContextApi';
 
 const Settings = () => {
+  const{adminData}=useGlobalState()
   return (
     <>
       <div className="container-fluid">
@@ -14,7 +16,7 @@ const Settings = () => {
                 <div>
                   <p className='text-muted email_heading'>Current Email:</p>
                   <div className="mb-3 align-items-end">
-                    <p className='py-3 px-3 border rounded'>dummy@gmail.com</p>
+                    <p className='py-3 px-3 border rounded'>{adminData}</p>
                     <Link className='btn chnge_pass_btn' to={'/ce'}>Change Email</Link>
                   </div>
 

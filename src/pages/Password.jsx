@@ -8,14 +8,16 @@ import { useGlobalState } from '../contextApi/ContextApi';
 function Password() {
     const { setIsUserToken } = useGlobalState()
     const [getPassword, setGetPassword] = useState("")
-const [error,setError]=useState("")
+    const [error, setError] = useState("")
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
 
     let Continue = async () => {
         try {
             if (!getPassword) {
                 alert("Invalid Credential")
             }
+            setLoading(true)
             const response = await axios.post('http://localhost:8003/login', {
                 id: "668822b984d1ef6732e207bb",
                 password: getPassword
@@ -27,8 +29,10 @@ const [error,setError]=useState("")
                 window.location.reload()
             }
         } catch (error) {
-            setError(error.message)
+            setError("Incorrect Password")
             console.error(error.message)
+        } finally {
+            setLoading(false)
         }
     }
     return (
@@ -52,36 +56,14 @@ const [error,setError]=useState("")
                             <label htmlFor="password">Enter our password</label>
                         </div>
                         <div className='d-grid mt-3'>
-                            <button className='btn btn-primary' onClick={Continue} >Continue</button>
+                            <button className='btn btn-primary' onClick={Continue} >
+                                {loading ? 'Loading...' : 'Continue'}
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-        // <div className='container d-flex justify-content-center border align-items-center ' style={{height:"100vh"}}>
-        //     <div className='row form-div text-center '>
-        //         <div className="col-lg-5"></div>
-        //         <div className='mb-4'>
-        //             <img src={logo} width={160} />
-        //         </div>
-        //         <div className='form-floating mb-3'>
-        //             <input
-        //                 type="password"
-        //                 className="form-control"
-        //                 id="password"
-        //                 placeholder="Enter your password"
-        //                 style={{ boxShadow: "none", outline: "none" }}
-        //                 onChange={(e) => { setGetPassword(e.target.value) }}
-        //             />
-        //             <label htmlFor="password">Enter our password</label>
-        //         </div>
-
-        //         <div className='d-grid mt-3'>
-        //             <button className='btn btn-primary' onClick={Continue} >Continue</button>
-        //         </div>
-
-        //     </div>
-        // </div>
     )
 }
 

@@ -18,8 +18,9 @@ let GlobalStates = ({ children }) => {
     const [allCourse, setAllCourses] = useState([]);
     const [issuedBatchNo, setIssuedBatchNo] = useState("");
     const [issuedCourseName, setIssuedCourseName] = useState("");
-    const [error,setError]=useState("");
-    const [totalCertificaet,setTotalCertificate]=useState("")
+    const [error, setError] = useState("");
+    const [totalCertificaet, setTotalCertificate] = useState("")
+    const [adminData, setAdminData] = useState("")
 
     useEffect(() => {
         (async () => {
@@ -45,9 +46,10 @@ let GlobalStates = ({ children }) => {
         allCourse, setAllCourses,
         issuedBatchNo, setIssuedBatchNo,
         issuedCourseName, setIssuedCourseName,
-        error,setError,
-        totalCertificaet,setTotalCertificate
-        
+        error, setError,
+        totalCertificaet, setTotalCertificate,
+        adminData, setAdminData
+
     }}>
         {children}
     </GlobalContext.Provider>

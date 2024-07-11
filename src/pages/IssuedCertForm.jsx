@@ -3,6 +3,7 @@ import IssuedCertificateForm from './IssuedCertificatemodal'
 import { GetAllIssuedCertificate } from '../services/getAllCourse';
 import Loader from '../component/Loader/Loader';
 import SendEmail from '../component/SendEmail/SendEmail';
+import PdfButton from '../component/PdfButton/PdfButton';
 
 export default function IssuedCertForm() {
     const [allStudentData, setAllStudentData] = useState([]);
@@ -56,8 +57,7 @@ export default function IssuedCertForm() {
                                         </span>
                                     </td>
                                     <td>
-                                        <button className="btn btn-success btn-sm m-1">View</button>
-                                        <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(certificate._id) }}>Delete</button>
+                                        <PdfButton pdfUrl={certificate.certificateUrl} />
                                     </td>
                                 </tr>
                             ))}
@@ -69,41 +69,4 @@ export default function IssuedCertForm() {
             </div>
         </div>
     )
-    // return (
-    //     <div className="bg-white p-3 mb-3 rounded shadow-sm create_cert">
-    //         <h2>Issued Certificate:</h2>
-    //         <div className="mt-4">
-    //             <div className="mb-3">
-    //                 <label htmlFor="recipient-name" className="form-label">Batch Number:</label>
-    //                 <div className='form-floating mb-3'>
-    //                     <input
-    //                         type="text"
-    //                         className="form-control"
-    //                         id='recipient-name'
-    //                         placeholder="Enter your name"
-    //                         style={{ boxShadow: "none", outline: "none" }}
-    //                     />
-    //                     <label htmlFor="email">Enter your batch no.</label>
-    //                 </div>
-    //             </div>
-    //             <div className="mb-3">
-    //                 <label htmlFor="recipient-email" className="form-label">Course Name:</label>
-    //                 <div className='form-floating mb-3'>
-    //                     <input
-    //                         type="text"
-    //                         className="form-control"
-    //                         id='recipient-email'
-    //                         placeholder="Enter your course name"
-    //                         style={{ boxShadow: "none", outline: "none" }}
-    //                     />
-    //                     <label htmlFor="email">Enter your course name</label>
-    //                 </div>
-    //             </div>
-    //         </div>
-
-    //         <a href='/adminportal/issuedcertificates'>
-    //             <button type="submit" className="btn btn-primary">Issued </button>
-    //         </a>
-    //     </div>
-    // )
 }

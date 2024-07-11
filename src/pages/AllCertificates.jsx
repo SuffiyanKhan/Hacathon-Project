@@ -4,11 +4,12 @@ import '../index.css';
 import { GetAllCertificateData } from '../services/getAllCourse';
 import Loader from '../component/Loader/Loader';
 import { useGlobalState } from '../contextApi/ContextApi';
+import axios from 'axios';
 
 function AllCertificates() {
     const { totalCertificaet, setTotalCertificate } = useGlobalState()
     const [certificateData, setCertificateData] = useState([]);
-const [getInput,setGetInput]=useState("")
+    const [getInput, setGetInput] = useState("")
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -23,13 +24,20 @@ const [getInput,setGetInput]=useState("")
                 setLoading(false);
             }
         })();
-        // (async()=>{
-        //     // serachissuedcertificate
-        //     const response = await fetch(`http://localhost:8003/?q=${getInput}`)
-        //     console.log(response)
-        // })()
     }, []);
-//isEmail
+    
+    const deleted = async (id) => {
+        try {
+            alert("Delete this student")
+            const response = await axios.delete(`http://localhost:8003/deleteCertificates/${id}`)
+            if (response.data.status === 200) {
+                window.location.reload()
+            }
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    //isEmail
 
     return (
         <div className="bg-white p-3 mb-3 rounded shadow-sm">
@@ -61,14 +69,11 @@ const [getInput,setGetInput]=useState("")
                                     <td>{certificate.batchNo}</td>
                                     <td>
                                         <span className='bg-primary text-white py-1 px-2 rounded-3' style={{ fontSize: "13px" }}>
-                                            {
-                                                certificate.Active ? "Active" :"Unactive" 
-                                            }
-                                            </span>
+                                            Unactive
+                                        </span>
                                     </td>
                                     <td>
-                                        <button className="btn btn-success btn-sm m-1">View</button>
-                                        <button className="btn btn-danger btn-sm m-1" onClick={() => { alert(certificate._id) }}>Delete</button>
+                                        <button className="btn btn-danger btn-sm m-1" onClick={() => { deleted(certificate._id) }}>Delete</button>
                                     </td>
                                 </tr>
                             ))}

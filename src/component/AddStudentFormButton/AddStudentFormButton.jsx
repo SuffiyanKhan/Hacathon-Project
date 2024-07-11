@@ -4,14 +4,14 @@ import axios from 'axios';
 import BackButton from '../BackButton/BackButton';
 
 function AddStudentFormButton() {
-    const { 
+    const {
         studentName, setStudentName,
         courseName, setCourseName,
         currentDate, setCurrentDate,
         studentEmail, setStudentEmail,
         studentCnic, setStudentCnic,
         batchNo, setBatchNo,
-        rollNo, setRollNo 
+        rollNo, setRollNo
     } = useGlobalState();
 
     const submit = async () => {
@@ -29,8 +29,8 @@ function AddStudentFormButton() {
                 batchNo: batchNo,
                 rollno: rollNo
             });
-            if(response.status === 200){
-                alert("sucessfully")
+            if (response.status === 200) {
+                alert("Certificates generated successfully");
                 setStudentName("")
                 setCourseName("")
                 setCurrentDate("")
@@ -38,10 +38,22 @@ function AddStudentFormButton() {
                 setStudentCnic("")
                 setBatchNo("")
                 setRollNo("")
+            } else {
+                alert("Failed to generate certificates. Status: " + response.status);
             }
-            console.log(response.data);
+
         } catch (error) {
-            console.error(error.message);
+            if (error.response) {
+                if (error.response.status === 404) {
+                    alert("Please check your inputs.");
+                } else {
+                    alert("Internal Server Error. Failed to add students.");
+                }
+            } else if (error.request) {
+                alert("Network error. Failed to communicate with server.");
+            } else {
+                alert("Error add students: " + error.message);
+            }
         }
     }
 
@@ -49,7 +61,7 @@ function AddStudentFormButton() {
         <div className="col-lg-6 col-md-12 col-sm-12">
             <div className="d-flex align-items-center">
                 <button className="btn btn-primary" onClick={submit}>Add Student</button>
-                <BackButton/>
+                <BackButton />
             </div>
         </div>
     )
