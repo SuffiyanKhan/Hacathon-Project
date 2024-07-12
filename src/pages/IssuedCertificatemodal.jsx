@@ -4,15 +4,19 @@ import Modal from 'react-bootstrap/Modal';
 import IssuedCertificateForm from '../component/IssuedCertificateForm/IssuedCertificateForm';
 import { useGlobalState } from '../contextApi/ContextApi';
 import axios from 'axios';
+import IssuedCertificateFromRollNumber from '../component/IssuedCertificateFromRollNumber/IssuedCertificateFromRollNumber';
 function IssuedCertificatemodal() {
-    const { setError, issuedBatchNo, setIssuedBatchNo, issuedCourseName, setIssuedCourseName } = useGlobalState()
+    const { setError, rollNo, setRollNo, issuedBatchNo, setIssuedBatchNo, issuedCourseName, setIssuedCourseName } = useGlobalState()
 
     const [show, setShow] = useState(false);
+    const [showAll, setShowAll] = useState(false);
+    const [showRollNo, setShowRollNo] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const ISSUEDcERTIFICATE = async () => {
-        if (!issuedBatchNo | !issuedCourseName) {
+        const rollNumberArray = rollNo.split(',').map(Number);
+        if (!issuedBatchNo | !issuedCourseName || !rollNo) {
             setError("Please fill inputs")
             return;
         }
@@ -20,21 +24,24 @@ function IssuedCertificatemodal() {
         setError("");
         setIssuedBatchNo("");
         setIssuedCourseName("");
+        setRollNo("")
+        alert("Certificates generated successfully");
         try {
             const response = await axios.post('http://localhost:8003/generate', {
                 batchno: issuedBatchNo.toLowerCase(),
-                course: issuedCourseName.toLowerCase()
+                course: issuedCourseName.toLowerCase(),
+                rollno:rollNumberArray
             });
             const successStatus = await response.status
 
-            if (successStatus.status === 200) {
+            if (successStatus === 200) {
                 alert("Certificates generated successfully");
                 handleClose();
                 setError("");
                 setIssuedBatchNo("");
                 setIssuedCourseName("");
             } else {
-                alert("Failed to generate certificates. Status: " + successStatus.status);
+                alert("Failed to generate certificates. Status: " + successStatus);
             }
 
         } catch (error) {
@@ -51,7 +58,15 @@ function IssuedCertificatemodal() {
             }
         }
     }
-
+    const handleButton = async (name) => {
+        if (name === "all") {
+            setShowAll(true)
+            setShowRollNo(false)
+        } if (name === "roll no") {
+            setShowAll(false)
+            setShowRollNo(true)
+        }
+    }
 
     return (
         <>
@@ -64,7 +79,14 @@ function IssuedCertificatemodal() {
                     <Modal.Title>Isuued certificate</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <IssuedCertificateForm />
+                    <div className="border d-flex">
+                        <button className="btn btn-primary border w-100" onClick={() => { handleButton("all") }}>All</button>
+                        <button className="btn btn-primary border w-100" onClick={() => { handleButton("roll no") }}>Roll No</button>
+                    </div>
+                    {
+                        showRollNo ? <IssuedCertificateFromRollNumber /> :
+                            <IssuedCertificateForm />
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

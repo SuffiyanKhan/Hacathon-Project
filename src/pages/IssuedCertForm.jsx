@@ -4,6 +4,7 @@ import { GetAllIssuedCertificate } from '../services/getAllCourse';
 import Loader from '../component/Loader/Loader';
 import SendEmail from '../component/SendEmail/SendEmail';
 import PdfButton from '../component/PdfButton/PdfButton';
+import Modals from '../component/Modals/Modals';
 
 export default function IssuedCertForm() {
     const [allStudentData, setAllStudentData] = useState([]);
@@ -23,18 +24,23 @@ export default function IssuedCertForm() {
     }, []);
     return (
         <div className="bg-white py-5 px-4 mb-3 rounded shadow-sm">
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-center">
                 <h2>Issued Certificates</h2>
-                <div className="">
-                    <IssuedCertificateForm />
-                    <SendEmail/>
+                <div className="d-flex">
+                    <div className="d-none d-lg-block">
+                        <IssuedCertificateForm />
+                        <SendEmail />
+                    </div>
+                    <div className=" d-lg-none ">
+                        <Modals/>
+                    </div>
                 </div>
             </div>
             {/* <input type="text" className="form-control mt-4" placeholder="Enter Student Roll Number" style={{ boxShadow: "none", outline: "none" }} /> */}
             <div className="mt-3" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 {loading ? (
                     <Loader />
-                ) : allStudentData.length > 0 ? (
+                ) : allStudentData ? (
                     <table className="table table-bordered mt-4">
                         <thead>
                             <tr>

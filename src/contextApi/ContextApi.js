@@ -18,6 +18,7 @@ let GlobalStates = ({ children }) => {
     const [allCourse, setAllCourses] = useState([]);
     const [issuedBatchNo, setIssuedBatchNo] = useState("");
     const [issuedCourseName, setIssuedCourseName] = useState("");
+    const [rollno, setrollno] = useState("");
     const [error, setError] = useState("");
     const [totalCertificaet, setTotalCertificate] = useState("")
     const [adminData, setAdminData] = useState("")
