@@ -80,7 +80,7 @@ function AllCertificates() {
                         </tbody>
                     </table>
                 ) : (
-                    <p>No data available</p>
+                    <p className='text-center fw-semibold d-flex align-items-center'>No data available</p>
                 )}
             </div>
         </div>
