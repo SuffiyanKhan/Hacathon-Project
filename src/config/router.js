@@ -19,10 +19,16 @@ import NavbarWithSideBar from "../component/NavbarWithSideBar/NavbarWithSideBar"
 import DetailPage from "../pages/DetailPage";
 import AllStudents from "../pages/AllStudents";
 import AddStudents from "../pages/AddStudents";
+import NotFoundPage from "../component/NotFoundPage/NotFoundPage";
 function Router() {
     const { isUser } = useGlobalState()
     const router = createBrowserRouter([
         {
+            path: "*",
+            element: <>
+                <NotFoundPage/>
+            </>
+        },{
             path: "/",
             element: <>
                 {
